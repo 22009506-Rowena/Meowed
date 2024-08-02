@@ -22,10 +22,18 @@ def add_record():
 @app.route('/get_latest_record', methods=['GET'])
 def get_latest_record():
     if car_data:
-        return jsonify(car_data[-1]), 200
+        latest_record = car_data[-1]
+        response = {
+            "items": {
+                "IncomingCar": latest_record['incoming_car'],
+                "OutgoingCar": latest_record['outgoing_car'],
+                "TotalSlots": latest_record['total_slots'],
+                "TotalAvailable": latest_record['total_available']
+            }
+        }
+        return jsonify(response), 200
     else:
         return jsonify({"error": "No records found"}), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
-
